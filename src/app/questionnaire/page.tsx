@@ -19,7 +19,7 @@ import {
     X
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type QuestionStatus = "unanswered" | "known" | "review";
 
@@ -31,7 +31,7 @@ export default function QuestionnairePage() {
   const [selectedChapter, setSelectedChapter] = useState<string>("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [isShuffled, setIsShuffled] = useState(false);
+  const [shuffleSeed, setShuffleSeed] = useState<number | null>(null);
   const [progress, setProgress] = useState<Progress>({});
 
   // Load progress from localStorage
@@ -47,17 +47,29 @@ export default function QuestionnairePage() {
     localStorage.setItem("quiz-progress", JSON.stringify(progress));
   }, [progress]);
 
+  // Fonction de shuffle déterministe avec seed
+  const seededShuffle = useCallback(<T,>(array: T[], seed: number): T[] => {
+    const result = [...array];
+    let currentSeed = seed;
+    for (let i = result.length - 1; i > 0; i--) {
+      currentSeed = (currentSeed * 9301 + 49297) % 233280;
+      const j = Math.floor((currentSeed / 233280) * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }, []);
+
   const filteredQuestions = useMemo(() => {
-    let qs = selectedChapter === "all"
+    const qs = selectedChapter === "all"
       ? questions
       : questions.filter(q => q.chapterId === selectedChapter);
 
-    if (isShuffled) {
-      qs = [...qs].sort(() => Math.random() - 0.5);
+    if (shuffleSeed !== null) {
+      return seededShuffle(qs, shuffleSeed);
     }
 
     return qs;
-  }, [selectedChapter, isShuffled]);
+  }, [selectedChapter, shuffleSeed, seededShuffle]);
 
   const currentQuestion = filteredQuestions[currentIndex];
   const currentChapter = chapters.find(c => c.id === currentQuestion?.chapterId);
@@ -78,11 +90,11 @@ export default function QuestionnairePage() {
     setCurrentIndex((prev) => (prev - 1 + filteredQuestions.length) % filteredQuestions.length);
   };
 
-  const handleShuffle = () => {
-    setIsShuffled(true);
+  const handleShuffle = useCallback(() => {
+    setShuffleSeed(Date.now());
     setCurrentIndex(0);
     setShowAnswer(false);
-  };
+  }, []);
 
   const handleMarkAs = (status: QuestionStatus) => {
     if (currentQuestion) {
