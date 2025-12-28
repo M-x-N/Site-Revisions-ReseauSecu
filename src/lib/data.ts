@@ -426,6 +426,232 @@ export const questions: Question[] = [
     answer: 'Avantages : authentification centralisée, base unique d\'utilisateurs, support de nombreux protocoles (PPP, WiFi, etc.), comptabilisation pour facturation. Inconvénients : protocole UDP (pas fiable), pas de sécurisation au niveau transport (besoin VPN), pas d\'authentification du serveur RADIUS.',
     difficulty: 'moyen',
     tags: ['RADIUS', 'AAA', 'authentification']
+  },
+  // Nouvelles questions - Exam 2018-2019
+  {
+    id: 'q26',
+    chapterId: 'chap3',
+    examYear: '2018-2019',
+    question: 'Expliquez le principe de la factorisation dans RSA. Pourquoi est-ce la base de la sécurité de RSA ?',
+    answer: 'RSA repose sur la difficulté de factoriser un grand nombre n = p × q (produit de deux nombres premiers). Connaître n ne permet pas de retrouver p et q efficacement. La clé privée d dépend de φ(n) = (p-1)(q-1), donc sans factoriser n, on ne peut pas calculer d. C\'est un problème NP pour les grands nombres.',
+    difficulty: 'moyen',
+    tags: ['RSA', 'factorisation', 'sécurité']
+  },
+  {
+    id: 'q27',
+    chapterId: 'chap3',
+    examYear: '2018-2019',
+    question: 'Comment calcule-t-on les clés publique et privée dans RSA ?',
+    answer: '1) Choisir deux grands nombres premiers p et q. 2) Calculer n = p × q. 3) Calculer φ(n) = (p-1)(q-1). 4) Choisir e tel que 1 < e < φ(n) et pgcd(e, φ(n)) = 1. 5) Calculer d = e⁻¹ mod φ(n) (inverse modulaire). Clé publique = (n, e), Clé privée = (n, d).',
+    difficulty: 'moyen',
+    tags: ['RSA', 'clés', 'génération']
+  },
+  {
+    id: 'q28',
+    chapterId: 'chap3',
+    examYear: '2019-2020',
+    question: 'Expliquez l\'échange de clés Diffie-Hellman. Quels sont ses avantages et faiblesses ?',
+    answer: 'Alice et Bob choisissent p (premier) et g (générateur). Alice génère a, calcule A = g^a mod p. Bob génère b, calcule B = g^b mod p. Ils échangent A et B. Le secret partagé est K = B^a = A^b = g^(ab) mod p. Avantage : échange sécurisé sans partager de secret initial. Faiblesse : vulnérable à l\'attaque man-in-the-middle sans authentification.',
+    difficulty: 'moyen',
+    tags: ['Diffie-Hellman', 'échange de clés', 'cryptographie']
+  },
+  {
+    id: 'q29',
+    chapterId: 'chap3',
+    examYear: '2019-2020',
+    question: 'Qu\'est-ce que le problème du logarithme discret et pourquoi est-il important pour Diffie-Hellman ?',
+    answer: 'Le problème du logarithme discret consiste à trouver x tel que g^x = A mod p, connaissant g, A et p. C\'est calculatoirement difficile pour de grands nombres. Diffie-Hellman repose sur cette difficulté : un attaquant voit g, p, A et B mais ne peut pas calculer a ou b pour obtenir le secret K = g^(ab).',
+    difficulty: 'difficile',
+    tags: ['logarithme discret', 'Diffie-Hellman', 'sécurité']
+  },
+  {
+    id: 'q30',
+    chapterId: 'chap5',
+    examYear: '2020-2021',
+    question: 'Décrivez les deux phases d\'IKE (Internet Key Exchange).',
+    answer: 'Phase 1 : Établit un canal sécurisé (ISAKMP SA) entre les deux parties. Négociation des algorithmes, authentification mutuelle, échange Diffie-Hellman pour créer une clé de session. Deux modes : Main mode (6 messages, plus sécurisé) ou Aggressive mode (3 messages, plus rapide). Phase 2 (Quick Mode) : Utilise le canal de Phase 1 pour négocier les SA IPSec (AH/ESP) et les clés de session pour le trafic réel.',
+    difficulty: 'difficile',
+    tags: ['IKE', 'IPSec', 'négociation']
+  },
+  {
+    id: 'q31',
+    chapterId: 'chap5',
+    examYear: '2020-2021',
+    question: 'Qu\'est-ce qu\'une SA (Security Association) dans IPSec et comment est-elle identifiée ?',
+    answer: 'Une SA est un ensemble unidirectionnel de paramètres de sécurité (algorithmes, clés, modes, durée de vie) entre deux entités. Elle est identifiée de manière unique par le triplet : SPI (Security Parameter Index), adresse IP de destination, et protocole (AH ou ESP). Chaque direction de communication nécessite une SA distincte.',
+    difficulty: 'moyen',
+    tags: ['SA', 'IPSec', 'SPI']
+  },
+  {
+    id: 'q32',
+    chapterId: 'chap4',
+    examYear: '2018-2019',
+    question: 'Quels sont les différents types de pare-feu et leurs caractéristiques ?',
+    answer: '1) Filtrage de paquets (stateless) : filtre selon IP/port, simple mais ne suit pas les connexions. 2) Filtrage stateful : maintient l\'état des connexions TCP, plus intelligent. 3) Proxy/Application : analyse le contenu applicatif (HTTP, FTP), plus lent mais plus sécurisé. 4) Next-gen (NGFW) : combine filtrage, IDS, inspection SSL, analyse comportementale.',
+    difficulty: 'moyen',
+    tags: ['pare-feu', 'filtrage', 'stateful']
+  },
+  {
+    id: 'q33',
+    chapterId: 'chap4',
+    examYear: '2019-2020',
+    question: 'Expliquez le fonctionnement du NAT et du PAT. Pourquoi sont-ils utilisés ?',
+    answer: 'NAT (Network Address Translation) : traduit les adresses IP privées en adresses publiques. Permet à plusieurs machines de partager une IP publique. PAT (Port Address Translation) : ajoute la translation de ports. Chaque connexion est identifiée par (IP privée, port source) → (IP publique, port unique). Utilisés pour : pénurie d\'adresses IPv4, sécurité (masquage des IP internes).',
+    difficulty: 'facile',
+    tags: ['NAT', 'PAT', 'adressage']
+  },
+  {
+    id: 'q34',
+    chapterId: 'chap6',
+    examYear: '2020-2021',
+    question: 'Quelles sont les étapes du handshake TLS 1.2 ?',
+    answer: '1) ClientHello : versions, suites de chiffrement, random. 2) ServerHello : suite choisie, random + Certificate (certificat serveur). 3) ClientKeyExchange : pre-master secret chiffré avec clé publique serveur. 4) ChangeCipherSpec : notification de passage au chiffrement. 5) Finished : vérification du handshake (hash des messages). Les deux parties dérivent les clés de session à partir du pre-master secret et des randoms.',
+    difficulty: 'difficile',
+    tags: ['TLS', 'handshake', 'SSL']
+  },
+  {
+    id: 'q35',
+    chapterId: 'chap6',
+    examYear: '2019-2020',
+    question: 'Quelle est la différence entre SSL/TLS et IPSec ? Dans quels cas utilise-t-on l\'un ou l\'autre ?',
+    answer: 'TLS : couche transport (au-dessus de TCP), sécurise application par application, pas de modification réseau, traverse NAT/firewalls, déploiement simple. IPSec : couche réseau (IP), sécurise tout le trafic IP, nécessite configuration réseau, incompatible NAT avec AH. Utiliser TLS pour : web (HTTPS), mail, applications. Utiliser IPSec pour : VPN site-à-site, protection globale du trafic.',
+    difficulty: 'moyen',
+    tags: ['TLS', 'IPSec', 'comparaison']
+  },
+  {
+    id: 'q36',
+    chapterId: 'chap3',
+    examYear: '2020-2021',
+    question: 'Qu\'est-ce que le mode CBC (Cipher Block Chaining) ? Quel est le rôle de l\'IV ?',
+    answer: 'CBC : chaque bloc de texte clair est XORé avec le bloc chiffré précédent avant chiffrement. Cela masque les patterns répétitifs. L\'IV (Initialization Vector) est un bloc aléatoire utilisé pour le premier bloc (pas de bloc précédent). Il doit être imprévisible et unique pour chaque message mais n\'a pas besoin d\'être secret.',
+    difficulty: 'moyen',
+    tags: ['CBC', 'IV', 'mode de chiffrement']
+  },
+  {
+    id: 'q37',
+    chapterId: 'chap3',
+    examYear: '2018-2019',
+    question: 'Pourquoi utilise-t-on une fonction de hachage avant de signer un message ?',
+    answer: '1) Performance : signer un hash de 256 bits est beaucoup plus rapide que signer un message de plusieurs Mo. 2) Taille fixe : la signature a toujours la même taille quelle que soit la taille du message. 3) Sécurité : empêche les attaques par homomorphisme (comme RSA sans hash où S(m1)×S(m2) = S(m1×m2)).',
+    difficulty: 'facile',
+    tags: ['hachage', 'signature', 'performance']
+  },
+  {
+    id: 'q38',
+    chapterId: 'chap1',
+    examYear: 'général',
+    question: 'Quels sont les quatre types d\'attaques selon la classification par effet ?',
+    answer: '1) Interruption : atteinte à la disponibilité (DoS, destruction). 2) Interception : atteinte à la confidentialité (écoute passive, vol de données). 3) Modification : atteinte à l\'intégrité (altération de données en transit). 4) Fabrication : atteinte à l\'authenticité (usurpation d\'identité, faux messages).',
+    difficulty: 'facile',
+    tags: ['attaques', 'classification', 'sécurité']
+  },
+  {
+    id: 'q39',
+    chapterId: 'chap2',
+    examYear: 'général',
+    question: 'Qu\'est-ce qu\'une attaque par rejeu et comment s\'en protéger ?',
+    answer: 'Attaque par rejeu : un attaquant capture un message légitime et le retransmet plus tard pour reproduire son effet (ex: rejouer une authentification). Protection : 1) Timestamps : refuser les messages trop anciens. 2) Nonces : nombres utilisés une seule fois. 3) Numéros de séquence : détecter les doublons. 4) Fenêtre anti-rejeu (IPSec) : rejeter les paquets hors fenêtre.',
+    difficulty: 'moyen',
+    tags: ['rejeu', 'attaque', 'nonce']
+  },
+  {
+    id: 'q40',
+    chapterId: 'chap4',
+    examYear: '2020-2021',
+    question: 'Expliquez la différence entre NIDS et HIDS.',
+    answer: 'NIDS (Network IDS) : analyse le trafic réseau en temps réel, placé sur un segment réseau, détecte les attaques basées sur le réseau (scans, exploits). HIDS (Host IDS) : installé sur une machine, surveille les logs, fichiers système, appels système, détecte les modifications suspectes et malwares. Complémentaires : NIDS voit le trafic, HIDS voit l\'activité locale.',
+    difficulty: 'facile',
+    tags: ['NIDS', 'HIDS', 'IDS']
+  },
+  {
+    id: 'q41',
+    chapterId: 'chap5',
+    examYear: '2019-2020',
+    question: 'Pourquoi AH est-il incompatible avec NAT ?',
+    answer: 'AH calcule un hash d\'intégrité sur le paquet IP COMPLET, y compris les adresses IP source/destination. Quand le paquet traverse un NAT, l\'adresse IP est modifiée. Le récepteur recalcule le hash et obtient une valeur différente → le paquet est rejeté. Solution : utiliser ESP en mode tunnel ou NAT-T (NAT Traversal) qui encapsule ESP dans UDP.',
+    difficulty: 'moyen',
+    tags: ['AH', 'NAT', 'incompatibilité']
+  },
+  {
+    id: 'q42',
+    chapterId: 'chap6',
+    examYear: '2018-2019',
+    question: 'Dans SET, pourquoi a-t-on besoin de la signature duale ?',
+    answer: 'SET implique 3 parties : client, marchand, banque. Le client veut que : le marchand voie la commande mais PAS les infos de paiement, la banque voie le paiement mais PAS les détails de la commande. La signature duale permet de lier les deux parties (commande + paiement) de manière vérifiable tout en les gardant séparées. Chaque destinataire peut vérifier l\'intégrité sans voir l\'autre partie.',
+    difficulty: 'difficile',
+    tags: ['SET', 'signature duale', 'paiement']
+  },
+  {
+    id: 'q43',
+    chapterId: 'chap3',
+    examYear: '2020-2021',
+    question: 'Qu\'est-ce que la résistance aux collisions d\'une fonction de hachage ?',
+    answer: 'Résistance aux collisions : il doit être calculatoirement impossible de trouver deux messages M1 ≠ M2 tels que H(M1) = H(M2). C\'est plus fort que la résistance à la seconde préimage (trouver M2 connaissant M1). Si une fonction n\'est pas résistante aux collisions, un attaquant peut substituer un message par un autre avec la même signature.',
+    difficulty: 'moyen',
+    tags: ['hachage', 'collision', 'résistance']
+  },
+  {
+    id: 'q44',
+    chapterId: 'chap4',
+    examYear: '2019-2020',
+    question: 'Décrivez le protocole PPTP et ses faiblesses.',
+    answer: 'PPTP (Point-to-Point Tunneling Protocol) : encapsule PPP dans GRE, utilise TCP port 1723 pour le contrôle. Faiblesses : 1) MS-CHAPv1/v2 vulnérables (hashes faibles). 2) Chiffrement MPPE basé sur le mot de passe. 3) Pas d\'authentification mutuelle. 4) Pas de Perfect Forward Secrecy. Recommandation : utiliser L2TP/IPSec ou OpenVPN à la place.',
+    difficulty: 'moyen',
+    tags: ['PPTP', 'VPN', 'faiblesses']
+  },
+  {
+    id: 'q45',
+    chapterId: 'chap5',
+    examYear: '2020-2021',
+    question: 'Qu\'est-ce que Perfect Forward Secrecy (PFS) et comment l\'implémente-t-on ?',
+    answer: 'PFS garantit que si une clé à long terme est compromise, les sessions passées restent protégées. Chaque session utilise des clés éphémères générées par Diffie-Hellman. Même avec la clé privée permanente, impossible de déchiffrer les anciennes communications. Implémentation : utiliser un nouvel échange DH pour chaque session (IKE phase 1 avec groupe DH, TLS avec DHE/ECDHE).',
+    difficulty: 'difficile',
+    tags: ['PFS', 'Diffie-Hellman', 'sécurité']
+  },
+  {
+    id: 'q46',
+    chapterId: 'chap7',
+    examYear: '2018-2019',
+    question: 'Comment fonctionne une injection SQL et comment s\'en protéger ?',
+    answer: 'L\'attaquant insère du code SQL dans les entrées utilisateur (formulaires, URL). Exemple : login = "admin\' OR 1=1 --". Si la requête est construite par concaténation, le SQL malveillant est exécuté. Protection : 1) Requêtes préparées (paramètres liés). 2) Validation et échappement des entrées. 3) Principe du moindre privilège pour le compte DB. 4) WAF (Web Application Firewall).',
+    difficulty: 'moyen',
+    tags: ['injection SQL', 'sécurité web', 'protection']
+  },
+  {
+    id: 'q47',
+    chapterId: 'chap3',
+    examYear: '2019-2020',
+    question: 'Expliquez la différence entre chiffrement de flux et chiffrement par bloc.',
+    answer: 'Chiffrement par bloc : traite les données par blocs de taille fixe (64, 128 bits), même clé pour chaque bloc, nécessite un mode d\'opération (CBC, CTR). Exemples : AES, DES. Chiffrement de flux : génère un flux pseudo-aléatoire (keystream) XORé bit à bit avec les données, traitement continu. Exemple : RC4, ChaCha20. Flux plus rapide pour streaming, bloc plus courant pour fichiers.',
+    difficulty: 'moyen',
+    tags: ['chiffrement flux', 'chiffrement bloc', 'comparaison']
+  },
+  {
+    id: 'q48',
+    chapterId: 'chap4',
+    examYear: '2020-2021',
+    question: 'Qu\'est-ce qu\'une DMZ et comment est-elle architecturée ?',
+    answer: 'DMZ (DeMilitarized Zone) : segment réseau entre le réseau interne et Internet, isolé par des pare-feux. Architecture typique : Internet → Pare-feu externe → DMZ → Pare-feu interne → LAN. La DMZ héberge les serveurs accessibles depuis Internet (web, mail, DNS). Si un serveur DMZ est compromis, l\'attaquant n\'a pas accès direct au LAN.',
+    difficulty: 'facile',
+    tags: ['DMZ', 'architecture', 'pare-feu']
+  },
+  {
+    id: 'q49',
+    chapterId: 'chap6',
+    examYear: 'général',
+    question: 'Quels sont les sous-protocoles de SSL/TLS et leurs rôles ?',
+    answer: '1) Handshake Protocol : négociation des algorithmes, échange de clés, authentification. 2) Record Protocol : fragmentation, compression, chiffrement et MAC des données applicatives. 3) Change Cipher Spec Protocol : notification du passage au nouveau cipher suite. 4) Alert Protocol : signalisation des erreurs et alertes (warning, fatal).',
+    difficulty: 'moyen',
+    tags: ['SSL', 'TLS', 'protocoles']
+  },
+  {
+    id: 'q50',
+    chapterId: 'chap3',
+    examYear: '2018-2019',
+    question: 'Qu\'est-ce qu\'un certificat X.509 et quelles informations contient-il ?',
+    answer: 'Un certificat X.509 est un document numérique liant une clé publique à une identité. Contenu : version, numéro de série, algorithme de signature, émetteur (CA), période de validité, sujet (identité), clé publique du sujet, extensions (usage, contraintes), signature de la CA. Il permet de vérifier l\'authenticité d\'une clé publique via une chaîne de confiance.',
+    difficulty: 'moyen',
+    tags: ['certificat', 'X.509', 'PKI']
   }
 ];
 
