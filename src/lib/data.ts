@@ -652,6 +652,70 @@ export const questions: Question[] = [
     answer: 'Un certificat X.509 est un document numérique liant une clé publique à une identité. Contenu : version, numéro de série, algorithme de signature, émetteur (CA), période de validité, sujet (identité), clé publique du sujet, extensions (usage, contraintes), signature de la CA. Il permet de vérifier l\'authenticité d\'une clé publique via une chaîne de confiance.',
     difficulty: 'moyen',
     tags: ['certificat', 'X.509', 'PKI']
+  },
+  // Exam 2017-2018 & Annexes
+  {
+    id: 'q51',
+    chapterId: 'chap3',
+    examYear: '2017-2018',
+    question: 'Quelle est la différence fondamentale entre les modes ECB et CBC ? Lequel est recommandé ?',
+    answer: 'ECB (Electronic Code Book) chiffre chaque bloc indépendamment : $C_i = E_k(P_i)$. Identique blocs clairs $\\rightarrow$ identiques blocs chiffrés (révèle structure). CBC (Cipher Block Chaining) chaîne les blocs : $C_i = E_k(P_i \\oplus C_{i-1})$. CBC est recommandé car il masque les motifs répétitifs grâce au chaînage et à l\'IV.',
+    difficulty: 'moyen',
+    tags: ['ECB', 'CBC', 'mode opération']
+  },
+  {
+    id: 'q52',
+    chapterId: 'chap3',
+    examYear: '2017-2018',
+    question: 'Expliquez l\'avantage du mode CTR (Counter) par rapport à CBC.',
+    answer: 'CTR transforme un chiffrement par bloc en chiffrement de flux : $C_i = P_i \\oplus E_k(Nonce || Counter_i)$. Avantages : parallélisable (chiffrement et déchiffrement), accès aléatoire (pas besoin de déchiffrer $C_{i-1}$ pour lire $P_i$), pas de padding nécessaire.',
+    difficulty: 'difficile',
+    tags: ['CTR', 'mode opération', 'performance']
+  },
+  {
+    id: 'q53',
+    chapterId: 'chap4',
+    examYear: '2017-2018',
+    question: 'Dans Kerberos, à quoi sert le TGT (Ticket Granting Ticket) ?',
+    answer: 'Le TGT est un ticket global délivré par l\'AS (Authentication Server) après authentification initiale. Il prouve l\'identité de l\'utilisateur au TGS (Ticket Granting Server). Cela évite de retaper le mot de passe à chaque fois qu\'on veut accéder à un nouveau service ; on présente juste le TGT pour obtenir un ticket de service.',
+    difficulty: 'moyen',
+    tags: ['Kerberos', 'TGT', 'authentification']
+  },
+  {
+    id: 'q54',
+    chapterId: 'chap4',
+    examYear: '2017-2018',
+    question: 'Pourquoi WPA2 est-il plus sécurisé que WEP ?',
+    answer: 'WEP utilise RC4 avec des clés courtes et IV courts (répétitions), permettant de casser la clé en quelques minutes. WPA2 utilise AES (CCMP) pour le chiffrement fort et gère mieux les clés. Il inclut aussi un mécanisme de rotation de clés et vérifie l\'intégrité des messages (MIC) plus robustement que le CRC32 de WEP.',
+    difficulty: 'facile',
+    tags: ['WPA2', 'WEP', 'Wifi']
+  },
+  {
+    id: 'q55',
+    chapterId: 'chap3',
+    examYear: 'Annexes',
+    question: 'Comparez la taille des clés RSA et ECC (Elliptic Curve Cryptography) pour un niveau de sécurité équivalent.',
+    answer: 'ECC offre une sécurité équivalente à RSA avec des clés beaucoup plus petites. Par exemple, une clé ECC de 256 bits offre une sécurité comparable à une clé RSA de 3072 bits. Cela réduit la charge de calcul et la consommation mémoire, idéal pour les appareils mobiles ou IoT.',
+    difficulty: 'moyen',
+    tags: ['ECC', 'RSA', 'taille clé']
+  },
+  {
+    id: 'q56',
+    chapterId: 'chap3',
+    examYear: 'Annexes',
+    question: 'Quelle est la propriété mathématique fondamentale qui fait fonctionner RSA (relation clé/message) ?',
+    answer: 'RSA fonctionne grâce au théorème d\'Euler : $a^{\\phi(n)} \\equiv 1 \\pmod n$. Les clés sont choisies telles que $e \\cdot d \\equiv 1 \\pmod{\\phi(n)}$, donc $e \\cdot d = k\\phi(n) + 1$. Ainsi $(M^e)^d = M^{ed} = M^{1 + k\\phi(n)} = M \\cdot (M^{\\phi(n)})^k \\equiv M \\cdot 1^k \\equiv M \\pmod n$.',
+    difficulty: 'difficile',
+    tags: ['RSA', 'mathématiques', 'théorème d\'Euler']
+  },
+  {
+    id: 'q57',
+    chapterId: 'chap7',
+    examYear: '2017-2018',
+    question: 'Quelle est la différence entre un DoS et un DDoS ?',
+    answer: 'DoS (Denial of Service) : attaque provenant d\'une source unique visant à rendre un service indisponible (saturation bande passante ou ressources). DDoS (Distributed DoS) : attaque coordonnée provenant de multiples sources (botnet), beaucoup plus difficile à contrer car le trafic malveillant est indistinguable du trafic légitime et vient de partout.',
+    difficulty: 'facile',
+    tags: ['DoS', 'DDoS', 'attaque']
   }
 ];
 

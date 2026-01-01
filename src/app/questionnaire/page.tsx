@@ -1,4 +1,5 @@
 "use client";
+import { LatexText } from "@/components/ui/latex-text";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -233,7 +234,9 @@ export default function QuestionnairePage() {
             <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
               Question
             </h3>
-            <p className="text-lg leading-relaxed">{currentQuestion.question}</p>
+            <div className="text-lg leading-relaxed">
+              <LatexText text={currentQuestion.question} />
+            </div>
           </div>
 
           {/* Answer */}
@@ -262,24 +265,24 @@ export default function QuestionnairePage() {
               </Button>
             </div>
 
-            <div
-              className={`relative rounded-lg border bg-muted/30 p-4 transition-all duration-300 ${
-                !showAnswer ? "blur-sm select-none" : ""
-              }`}
-            >
-              <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                {currentQuestion.answer}
-              </p>
-
-              {!showAnswer && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Button onClick={() => setShowAnswer(true)}>
-                    <Eye className="mr-2 h-4 w-4" />
-                    Voir la réponse
-                  </Button>
+              <div
+                className={`relative rounded-lg border bg-muted/30 p-4 transition-all duration-300 ${
+                  !showAnswer ? "blur-sm select-none" : ""
+                }`}
+              >
+                <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  <LatexText text={currentQuestion.answer} />
                 </div>
-              )}
-            </div>
+
+                {!showAnswer && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Button onClick={() => setShowAnswer(true)}>
+                      <Eye className="mr-2 h-4 w-4" />
+                      Voir la réponse
+                    </Button>
+                  </div>
+                )}
+              </div>
           </div>
 
           {/* Tags */}
