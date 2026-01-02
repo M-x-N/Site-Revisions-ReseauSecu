@@ -7,17 +7,17 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { chapters, questions } from "@/lib/data";
 import {
-    BookOpen,
-    Check,
-    ChevronLeft,
-    ChevronRight,
-    ExternalLink,
-    Eye,
-    EyeOff,
-    Filter,
-    RotateCcw,
-    Shuffle,
-    X
+  BookOpen,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  Filter,
+  RotateCcw,
+  Shuffle,
+  X
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -30,6 +30,7 @@ interface Progress {
 
 export default function QuestionnairePage() {
   const [selectedChapter, setSelectedChapter] = useState<string>("all");
+  const [selectedExam, setSelectedExam] = useState<string>("all");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [shuffleSeed, setShuffleSeed] = useState<number | null>(null);
@@ -61,16 +62,24 @@ export default function QuestionnairePage() {
   }, []);
 
   const filteredQuestions = useMemo(() => {
-    const qs = selectedChapter === "all"
-      ? questions
-      : questions.filter(q => q.chapterId === selectedChapter);
+    let qs = questions;
+
+    // Filtre par chapitre
+    if (selectedChapter !== "all") {
+      qs = qs.filter(q => q.chapterId === selectedChapter);
+    }
+
+    // Filtre par examen
+    if (selectedExam !== "all") {
+      qs = qs.filter(q => q.examYear === selectedExam);
+    }
 
     if (shuffleSeed !== null) {
       return seededShuffle(qs, shuffleSeed);
     }
 
     return qs;
-  }, [selectedChapter, shuffleSeed, seededShuffle]);
+  }, [selectedChapter, selectedExam, shuffleSeed, seededShuffle]);
 
   const currentQuestion = filteredQuestions[currentIndex];
   const currentChapter = chapters.find(c => c.id === currentQuestion?.chapterId);
@@ -135,8 +144,11 @@ export default function QuestionnairePage() {
   if (!currentQuestion) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <p className="text-muted-foreground">Aucune question trouvée pour ce filtre.</p>
-        <Button onClick={() => setSelectedChapter("all")}>
+        <p className="text-muted-foreground">Aucune question trouvée pour ces filtres.</p>
+        <Button onClick={() => {
+          setSelectedChapter("all");
+          setSelectedExam("all");
+        }}>
           Voir toutes les questions
         </Button>
       </div>
@@ -173,17 +185,18 @@ export default function QuestionnairePage() {
 
       {/* Filters */}
       <Card>
-        <CardContent className="p-4">
+        <CardContent className="p-4 space-y-4">
+          {/* Filtre Chapitre */}
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex items-center gap-2 flex-1">
-              <Filter className="h-4 w-4 text-muted-foreground" />
+              <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
               <Tabs value={selectedChapter} onValueChange={(v) => {
                 setSelectedChapter(v);
                 setCurrentIndex(0);
                 setShowAnswer(false);
-              }}>
-                <TabsList className="h-auto flex-wrap">
-                  <TabsTrigger value="all" className="text-xs">Tous</TabsTrigger>
+              }} className="w-full">
+                <TabsList className="h-auto flex-wrap justify-start">
+                  <TabsTrigger value="all" className="text-xs">Tous les chapitres</TabsTrigger>
                   {chapters.map((c) => (
                     <TabsTrigger key={c.id} value={c.id} className="text-xs">
                       Ch.{c.number}
@@ -192,11 +205,46 @@ export default function QuestionnairePage() {
                 </TabsList>
               </Tabs>
             </div>
+          </div>
+
+          <div className="h-px bg-border" />
+
+          {/* Filtre Examen */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm text-muted-foreground mr-2">Examen :</span>
+              <Badge
+                variant={selectedExam === "all" ? "default" : "outline"}
+                className="cursor-pointer hover:bg-primary/90 transition-colors"
+                onClick={() => {
+                  setSelectedExam("all");
+                  setCurrentIndex(0);
+                  setShowAnswer(false);
+                }}
+              >
+                Tous
+              </Badge>
+              {Array.from(new Set(questions.map(q => q.examYear))).sort().map((exam) => (
+                <Badge
+                  key={exam}
+                  variant={selectedExam === exam ? "default" : "outline"}
+                  className="cursor-pointer hover:bg-primary/90 transition-colors"
+                  onClick={() => {
+                    setSelectedExam(exam);
+                    setCurrentIndex(0);
+                    setShowAnswer(false);
+                  }}
+                >
+                  {exam}
+                </Badge>
+              ))}
+            </div>
+
             <Button
               variant="outline"
               size="sm"
               onClick={handleShuffle}
-              className="gap-2"
+              className="gap-2 shrink-0"
             >
               <Shuffle className="h-4 w-4" />
               Mélanger
