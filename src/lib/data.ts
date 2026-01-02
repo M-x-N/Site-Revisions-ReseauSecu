@@ -214,7 +214,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Que se passe-t-il si le mot probable a une longueur de k+1, avec k la longueur de la clé ? Quelle est la bonne taille du mot probable ?',
-    answer: 'Si le mot probable a une longueur k+1 (k = longueur de la clé), on obtient k+1 caractères de la clé, mais comme la clé n\'a que k caractères, on obtient un caractère qui "déborde" sur le prochain cycle. Cela peut aider à vérifier la cohérence. La bonne taille est égale à la longueur de la clé k, car cela permet d\'obtenir exactement toute la clé.',
+    answer: 'Si le mot probable a une longueur $k+1$ ($k$ = longueur de la clé), on obtient $k+1$ caractères de la clé, mais comme la clé n\'a que $k$ caractères, on obtient un caractère qui "déborde" sur le prochain cycle. Cela peut aider à vérifier la cohérence. La bonne taille est égale à la longueur de la clé $k$, car cela permet d\'obtenir exactement toute la clé.',
     difficulty: 'difficile',
     tags: ['Vigenère', 'cryptanalyse']
   },
@@ -223,7 +223,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Comment produit-on la signature S d\'un message M ?',
-    answer: 'Pour produire la signature S d\'un message M : 1) On calcule le hash H(M) du message. 2) On chiffre ce hash avec la clé privée de l\'émetteur : S = chiffr(H(M), clé_privée). La signature S est envoyée avec le message M.',
+    answer: 'Pour produire la signature $S$ d\'un message $M$ : 1) On calcule le hash $H(M)$ du message. 2) On chiffre ce hash avec la clé privée de l\'émetteur : $S = E_{priv}(H(M))$. La signature $S$ est envoyée avec le message $M$.',
     difficulty: 'facile',
     tags: ['signature', 'hachage', 'clé privée']
   },
@@ -232,7 +232,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Comment vérifie-t-on la signature S d\'un message M ?',
-    answer: 'Pour vérifier la signature S : 1) On déchiffre S avec la clé publique de l\'émetteur : H\'(M) = déchiffr(S, clé_publique). 2) On calcule indépendamment H(M). 3) On compare H\'(M) et H(M). Si égaux, la signature est valide.',
+    answer: 'Pour vérifier la signature $S$ : 1) On déchiffre $S$ avec la clé publique de l\'émetteur : $H\'(M) = D_{pub}(S)$. 2) On calcule indépendamment $H(M)$. 3) On compare $H\'(M)$ et $H(M)$. Si égaux, la signature est valide.',
     difficulty: 'facile',
     tags: ['signature', 'vérification', 'clé publique']
   },
@@ -241,7 +241,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Supposons qu\'il est possible de créer une collision d\'une fonction de hachage sur un message M. Quel est l\'impact sur le mécanisme de signature ?',
-    answer: 'Si on peut trouver M\' tel que H(M\') = H(M), alors la signature S de M est aussi une signature valide pour M\'. Un attaquant peut faire signer un message inoffensif M, puis utiliser cette signature pour authentifier un message malveillant M\' ayant le même hash. C\'est pourquoi les fonctions de hachage cryptographiques doivent être résistantes aux collisions.',
+    answer: 'Si on peut trouver $M\'$ tel que $H(M\') = H(M)$, alors la signature $S$ de $M$ est aussi une signature valide pour $M\'$. Un attaquant peut faire signer un message inoffensif $M$, puis utiliser cette signature pour authentifier un message malveillant $M\'$ ayant le même hash. C\'est pourquoi les fonctions de hachage cryptographiques doivent être résistantes aux collisions.',
     difficulty: 'difficile',
     tags: ['collision', 'hachage', 'signature']
   },
@@ -287,7 +287,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2019-2020',
     question: 'Supposons que l\'attaquant connaisse la signature de deux messages m1 et m2 avec RSA-sans-hachage. Montrez qu\'il peut produire la signature du message m1.m2.',
-    answer: 'Avec RSA-sans-hachage, la signature de m est s = m^d [n]. Si on connaît s1 = m1^d [n] et s2 = m2^d [n], alors : s1 × s2 = m1^d × m2^d [n] = (m1 × m2)^d [n]. Donc s1 × s2 est la signature valide de m1 × m2. C\'est une attaque par homomorphisme.',
+    answer: 'Avec RSA-sans-hachage, la signature de $m$ est $s \\equiv m^d \\pmod n$. Si on connaît $s_1 \\equiv m_1^d \\pmod n$ et $s_2 \\equiv m_2^d \\pmod n$, alors : $s_1 \\cdot s_2 \\equiv m_1^d \\cdot m_2^d \\equiv (m_1 \\cdot m_2)^d \\pmod n$. Donc $s_1 \\cdot s_2$ est la signature valide de $m_1 \\cdot m_2$. C\'est une attaque par homomorphisme.',
     difficulty: 'difficile',
     tags: ['RSA', 'signature', 'attaque']
   },
@@ -296,7 +296,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2019-2020',
     question: 'En quoi l\'ajout de la fonction de hachage empêche l\'attaque sur RSA-sans-hachage ?',
-    answer: 'Avec le hachage, la signature devient s = H(m)^d [n]. Pour obtenir la signature de m3, l\'attaquant devrait trouver m1 et m2 tels que H(m1) × H(m2) = H(m3) [n]. Comme la fonction de hachage est non-linéaire et résistante aux collisions, il est pratiquement impossible de trouver de tels m1 et m2.',
+    answer: 'Avec le hachage, la signature devient $s \\equiv H(m)^d \\pmod n$. Pour obtenir la signature de $m_3$, l\'attaquant devrait trouver $m_1$ et $m_2$ tels que $H(m_1) \\cdot H(m_2) \\equiv H(m_3) \\pmod n$. Comme la fonction de hachage est non-linéaire et résistante aux collisions, il est pratiquement impossible de trouver de tels $m_1$ et $m_2$.',
     difficulty: 'moyen',
     tags: ['RSA', 'hachage', 'sécurité']
   },
@@ -305,7 +305,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2019-2020',
     question: 'Montrez que si deux messages sont signés avec la même valeur aléatoire k dans El Gamal, on peut en déduire la clé privée a.',
-    answer: 'Pour deux signatures avec le même k : s1 = k⁻¹(h(m1) - a.r) [p-1] et s2 = k⁻¹(h(m2) - a.r) [p-1]. En soustrayant : s1 - s2 = k⁻¹(h(m1) - h(m2)) [p-1]. Donc k = (h(m1) - h(m2)) / (s1 - s2) [p-1]. Une fois k connu, on peut calculer a = (h(m1) - k.s1) / r [p-1]. C\'est pourquoi k doit être aléatoire et unique pour chaque signature.',
+    answer: 'Pour deux signatures avec le même $k$ : $s_1 \\equiv k^{-1}(h(m_1) - a \\cdot r) \\pmod{p-1}$ et $s_2 \\equiv k^{-1}(h(m_2) - a \\cdot r) \\pmod{p-1}$. En soustrayant : $s_1 - s_2 \\equiv k^{-1}(h(m_1) - h(m_2)) \\pmod{p-1}$. Donc $k \\equiv (h(m_1) - h(m_2)) \\cdot (s_1 - s_2)^{-1} \\pmod{p-1}$. Une fois $k$ connu, on peut calculer $a \\equiv (h(m_1) - k \\cdot s_1) \\cdot r^{-1} \\pmod{p-1}$. C\'est pourquoi $k$ doit être aléatoire et unique pour chaque signature.',
     difficulty: 'difficile',
     tags: ['El Gamal', 'signature', 'clé privée']
   },
@@ -315,7 +315,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2020-2021',
     question: 'Quelle est la taille d\'une clé 3-DES (version non optimisée) ? Quelle est la complexité pour casser 3-DES en force brute ?',
-    answer: '3-DES utilise 3 clés DES indépendantes. Chaque clé DES fait 56 bits (64 bits avec 8 bits de parité). Donc la clé 3-DES fait 3 × 56 = 168 bits. La complexité en force brute est O(2^168).',
+    answer: '3-DES utilise 3 clés DES indépendantes. Chaque clé DES fait 56 bits (64 bits avec 8 bits de parité). Donc la clé 3-DES fait $3 \\times 56 = 168$ bits. La complexité en force brute est $O(2^{168})$.',
     difficulty: 'facile',
     tags: ['3-DES', 'taille de clé', 'force brute']
   },
@@ -324,7 +324,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2020-2021',
     question: 'Quelle est la complexité pour casser 3-DES avec la technique meet-in-the-middle ?',
-    answer: 'Meet-in-the-middle : on chiffre avec k1 depuis le texte clair et on déchiffre avec k3 depuis le texte chiffré. On cherche une correspondance au milieu. Cela réduit la complexité à O(2^112) au lieu de O(2^168), car on doit tester 2^56 pour k1, stocker les résultats, puis tester 2^56 pour k3. Pour k2, on fait pareil, d\'où 2^56 × 2^56 = 2^112.',
+    answer: 'Meet-in-the-middle : on chiffre avec $k_1$ depuis le texte clair et on déchiffre avec $k_3$ depuis le texte chiffré. On cherche une correspondance au milieu. Cela réduit la complexité à $O(2^{112})$ au lieu de $O(2^{168})$, car on doit tester $2^{56}$ pour $k_1$, stocker les résultats, puis tester $2^{56}$ pour $k_3$. Pour $k_2$, on fait pareil, d\'où $2^{56} \\times 2^{56} = 2^{112}$.',
     difficulty: 'difficile',
     tags: ['3-DES', 'meet-in-the-middle', 'cryptanalyse']
   },
@@ -333,7 +333,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2020-2021',
     question: 'Pour 3-DES, montrez que si k1=k2 (ou k2=k3), alors l\'algorithme se casse facilement.',
-    answer: 'Si k1 = k2 : f(f(f(M, k1), k1), k3) = f(f(f(M, k1), k1), k3). Or f(f(M, k1), k1) = M (le déchiffrement annule le chiffrement avec la même clé). Donc 3-DES se réduit à f(M, k3), soit un simple DES, cassable en O(2^56).',
+    answer: 'Si $k_1 = k_2$ : $E_{k3}(D_{k1}(E_{k1}(M))) = E_{k3}(M)$. Or $D_{k1}(E_{k1}(M)) = M$ (le déchiffrement annule le chiffrement avec la même clé). Donc 3-DES se réduit à un simple DES avec $k_3$, cassable en $O(2^{56})$.',
     difficulty: 'moyen',
     tags: ['3-DES', 'faiblesse', 'clés identiques']
   },
@@ -351,7 +351,7 @@ export const questions: Question[] = [
     chapterId: 'chap4',
     examYear: '2020-2021',
     question: 'Décrivez la procédure de chiffrement/déchiffrement appliquée par la source dans TOR.',
-    answer: 'Chiffrement en oignon par la source s pour envoyer à d via (r1, r2, ..., rn=d) : 1) s chiffre le message avec la clé publique de d (ou clé symétrique négociée), 2) Puis chiffre le résultat avec la clé de rn-1, 3) Continue couche par couche jusqu\'à r1. À chaque routeur ri, celui-ci déchiffre sa couche avec sa clé privée, révélant l\'adresse du prochain routeur ri+1. Seul d peut lire le message final.',
+    answer: 'Chiffrement en oignon par la source $s$ pour envoyer à $d$ via $(r_1, r_2, \\dots, r_n=d)$ : 1) $s$ chiffre le message avec la clé publique de $d$ (ou clé symétrique négociée), 2) Puis chiffre le résultat avec la clé de $r_{n-1}$, 3) Continue couche par couche jusqu\'à $r_1$. À chaque routeur $r_i$, celui-ci déchiffre sa couche avec sa clé privée, révélant l\'adresse du prochain routeur $r_{i+1}$. Seul $d$ peut lire le message final.',
     difficulty: 'difficile',
     tags: ['TOR', 'chiffrement en oignon', 'anonymat']
   },
@@ -369,7 +369,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2020-2021',
     question: 'Expliquez le principe de la cryptanalyse différentielle sur une S-box.',
-    answer: 'La cryptanalyse différentielle étudie comment une différence dans l\'entrée affecte la différence en sortie d\'une S-box. On génère des paires (I1, I2) avec une différence d\'entrée connue ΔI = I1 ⊕ I2 et on observe la différence de sortie ΔO = O1 ⊕ O2. Certaines combinaisons (ΔI, ΔO) sont plus probables. En accumulant des statistiques, on peut déduire des informations sur la clé.',
+    answer: 'La cryptanalyse différentielle étudie comment une différence dans l\'entrée affecte la différence en sortie d\'une S-box. On génère des paires $(I_1, I_2)$ avec une différence d\'entrée connue $\\Delta I = I_1 \\oplus I_2$ et on observe la différence de sortie $\\Delta O = O_1 \\oplus O_2$. Certaines combinaisons $(\\Delta I, \\Delta O)$ sont plus probables. En accumulant des statistiques, on peut déduire des informations sur la clé.',
     difficulty: 'difficile',
     tags: ['cryptanalyse différentielle', 'S-box', 'DES']
   },
@@ -405,7 +405,7 @@ export const questions: Question[] = [
     chapterId: 'chap6',
     examYear: 'général',
     question: 'Expliquez le principe de la signature duale dans SET.',
-    answer: 'La signature duale permet à Alice d\'envoyer deux messages M1 et M2 à deux destinataires différents (Bob et Carole) de sorte que : Bob ne peut voir que M1, Carole ne peut voir que M2, mais chacun peut vérifier que sa partie n\'a pas été modifiée. Alice calcule S = signature(H(H(M1)||H(M2))). Elle envoie à Bob : M1 + H(M2) + S, et à Carole : M2 + H(M1) + S. Chacun peut recalculer le hash global et vérifier S.',
+    answer: 'La signature duale permet à Alice d\'envoyer deux messages $M_1$ et $M_2$ à deux destinataires différents (Bob et Carole) de sorte que : Bob ne peut voir que $M_1$, Carole ne peut voir que $M_2$, mais chacun peut vérifier que sa partie n\'a pas été modifiée. Alice calcule $S = Sign(H(H(M_1)||H(M_2)))$. Elle envoie à Bob : $M_1 || H(M_2) || S$, et à Carole : $M_2 || H(M_1) || S$. Chacun peut recalculer le hash global et vérifier $S$.',
     difficulty: 'difficile',
     tags: ['SET', 'signature duale', 'paiement']
   },
@@ -414,7 +414,7 @@ export const questions: Question[] = [
     chapterId: 'chap4',
     examYear: 'général',
     question: 'Quelles sont les différences entre PAP et CHAP ?',
-    answer: 'PAP (Password Authentication Protocol) : envoie le login et mot de passe en CLAIR sur le réseau. Simple mais non sécurisé. CHAP (Challenge Handshake Authentication Protocol) : utilise un mécanisme challenge-response. Le serveur envoie un nombre aléatoire N, le client répond avec hash(N, secret_partagé). Le mot de passe n\'est jamais transmis. Plus sécurisé, résiste aux attaques par rejeu.',
+    answer: 'PAP (Password Authentication Protocol) : envoie le login et mot de passe en CLAIR sur le réseau. Simple mais non sécurisé. CHAP (Challenge Handshake Authentication Protocol) : utilise un mécanisme challenge-response. Le serveur envoie un nombre aléatoire $N$, le client répond avec $H(N, secret)$. Le mot de passe n\'est jamais transmis. Plus sécurisé, résiste aux attaques par rejeu.',
     difficulty: 'facile',
     tags: ['PAP', 'CHAP', 'authentification']
   },
@@ -433,7 +433,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Expliquez le principe de la factorisation dans RSA. Pourquoi est-ce la base de la sécurité de RSA ?',
-    answer: 'RSA repose sur la difficulté de factoriser un grand nombre n = p × q (produit de deux nombres premiers). Connaître n ne permet pas de retrouver p et q efficacement. La clé privée d dépend de φ(n) = (p-1)(q-1), donc sans factoriser n, on ne peut pas calculer d. C\'est un problème NP pour les grands nombres.',
+    answer: 'RSA repose sur la difficulté de factoriser un grand nombre $n = p \\cdot q$ (produit de deux nombres premiers). Connaître $n$ ne permet pas de retrouver $p$ et $q$ efficacement. La clé privée $d$ dépend de $\\phi(n) = (p-1)(q-1)$, donc sans factoriser $n$, on ne peut pas calculer $d$. C\'est un problème NP pour les grands nombres.',
     difficulty: 'moyen',
     tags: ['RSA', 'factorisation', 'sécurité']
   },
@@ -442,7 +442,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Comment calcule-t-on les clés publique et privée dans RSA ?',
-    answer: '1) Choisir deux grands nombres premiers p et q. 2) Calculer n = p × q. 3) Calculer φ(n) = (p-1)(q-1). 4) Choisir e tel que 1 < e < φ(n) et pgcd(e, φ(n)) = 1. 5) Calculer d = e⁻¹ mod φ(n) (inverse modulaire). Clé publique = (n, e), Clé privée = (n, d).',
+    answer: '1) Choisir deux grands nombres premiers $p$ et $q$. 2) Calculer $n = p \\cdot q$. 3) Calculer $\\phi(n) = (p-1)(q-1)$. 4) Choisir $e$ tel que $1 < e < \\phi(n)$ et $\\gcd(e, \\phi(n)) = 1$. 5) Calculer $d \\equiv e^{-1} \\pmod{\\phi(n)}$ (inverse modulaire). Clé publique = $(n, e)$, Clé privée = $(n, d)$.',
     difficulty: 'moyen',
     tags: ['RSA', 'clés', 'génération']
   },
@@ -451,7 +451,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2019-2020',
     question: 'Expliquez l\'échange de clés Diffie-Hellman. Quels sont ses avantages et faiblesses ?',
-    answer: 'Alice et Bob choisissent p (premier) et g (générateur). Alice génère a, calcule A = g^a mod p. Bob génère b, calcule B = g^b mod p. Ils échangent A et B. Le secret partagé est K = B^a = A^b = g^(ab) mod p. Avantage : échange sécurisé sans partager de secret initial. Faiblesse : vulnérable à l\'attaque man-in-the-middle sans authentification.',
+    answer: 'Alice et Bob choisissent $p$ (premier) et $g$ (générateur). Alice génère $a$, calcule $A \\equiv g^a \\pmod p$. Bob génère $b$, calcule $B \\equiv g^b \\pmod p$. Ils échangent $A$ et $B$. Le secret partagé est $K \\equiv B^a \\equiv A^b \\equiv g^{ab} \\pmod p$. Avantage : échange sécurisé sans partager de secret initial. Faiblesse : vulnérable à l\'attaque man-in-the-middle sans authentification.',
     difficulty: 'moyen',
     tags: ['Diffie-Hellman', 'échange de clés', 'cryptographie']
   },
@@ -460,7 +460,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2019-2020',
     question: 'Qu\'est-ce que le problème du logarithme discret et pourquoi est-il important pour Diffie-Hellman ?',
-    answer: 'Le problème du logarithme discret consiste à trouver x tel que g^x = A mod p, connaissant g, A et p. C\'est calculatoirement difficile pour de grands nombres. Diffie-Hellman repose sur cette difficulté : un attaquant voit g, p, A et B mais ne peut pas calculer a ou b pour obtenir le secret K = g^(ab).',
+    answer: 'Le problème du logarithme discret consiste à trouver $x$ tel que $g^x \\equiv A \\pmod p$, connaissant $g, A, p$. C\'est calculatoirement difficile pour de grands nombres. Diffie-Hellman repose sur cette difficulté : un attaquant voit $g, p, A, B$ mais ne peut pas calculer $a$ ou $b$ pour obtenir le secret $K = g^{ab}$.',
     difficulty: 'difficile',
     tags: ['logarithme discret', 'Diffie-Hellman', 'sécurité']
   },
@@ -532,7 +532,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2018-2019',
     question: 'Pourquoi utilise-t-on une fonction de hachage avant de signer un message ?',
-    answer: '1) Performance : signer un hash de 256 bits est beaucoup plus rapide que signer un message de plusieurs Mo. 2) Taille fixe : la signature a toujours la même taille quelle que soit la taille du message. 3) Sécurité : empêche les attaques par homomorphisme (comme RSA sans hash où S(m1)×S(m2) = S(m1×m2)).',
+    answer: '1) Performance : signer un hash de 256 bits est beaucoup plus rapide que signer un message de plusieurs Mo. 2) Taille fixe : la signature a toujours la même taille quelle que soit la taille du message. 3) Sécurité : empêche les attaques par homomorphisme (comme RSA sans hash où $S(m_1) \\times S(m_2) = S(m_1 \\times m_2)$).',
     difficulty: 'facile',
     tags: ['hachage', 'signature', 'performance']
   },
@@ -586,7 +586,7 @@ export const questions: Question[] = [
     chapterId: 'chap3',
     examYear: '2020-2021',
     question: 'Qu\'est-ce que la résistance aux collisions d\'une fonction de hachage ?',
-    answer: 'Résistance aux collisions : il doit être calculatoirement impossible de trouver deux messages M1 ≠ M2 tels que H(M1) = H(M2). C\'est plus fort que la résistance à la seconde préimage (trouver M2 connaissant M1). Si une fonction n\'est pas résistante aux collisions, un attaquant peut substituer un message par un autre avec la même signature.',
+    answer: 'Résistance aux collisions : il doit être calculatoirement impossible de trouver deux messages $M_1 \\neq M_2$ tels que $H(M_1) = H(M_2)$. C\'est plus fort que la résistance à la seconde préimage (trouver $M_2$ connaissant $M_1$). Si une fonction n\'est pas résistante aux collisions, un attaquant peut substituer un message par un autre avec la même signature.',
     difficulty: 'moyen',
     tags: ['hachage', 'collision', 'résistance']
   },
