@@ -351,21 +351,13 @@ export default function QuestionnairePage() {
 
               <div
                 className={`relative rounded-lg border bg-muted/30 p-4 transition-all duration-300 ${
-                  !showAnswer ? "blur-sm select-none" : ""
+                  !showAnswer ? "blur-md select-none cursor-pointer hover:bg-muted/50" : ""
                 }`}
+                onClick={() => !showAnswer && setShowAnswer(true)}
               >
                 <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
                   <LatexText text={currentQuestion.answer} />
                 </div>
-
-                {!showAnswer && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Button onClick={() => setShowAnswer(true)}>
-                      <Eye className="mr-2 h-4 w-4" />
-                      Voir la réponse
-                    </Button>
-                  </div>
-                )}
               </div>
           </div>
 
