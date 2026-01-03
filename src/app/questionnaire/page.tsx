@@ -293,8 +293,14 @@ export default function QuestionnairePage() {
                   if (pdfUrl) {
                     return (
                       <Link href={pdfUrl} target="_blank" rel="noopener noreferrer">
-                        <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full" title="Voir l'examen PDF">
+                        <Button
+                          variant={currentQuestion.examQuestionRef ? "outline" : "ghost"}
+                          size={currentQuestion.examQuestionRef ? "sm" : "icon"}
+                          className={currentQuestion.examQuestionRef ? "h-6 gap-2 text-xs" : "h-6 w-6 rounded-full"}
+                          title={currentQuestion.examQuestionRef ? `Voir la question ${currentQuestion.examQuestionRef} dans l'examen PDF` : "Voir l'examen PDF"}
+                        >
                           <FileText className="h-3 w-3" />
+                          {currentQuestion.examQuestionRef && <span>Q.{currentQuestion.examQuestionRef}</span>}
                         </Button>
                       </Link>
                     );

@@ -19,6 +19,7 @@ export interface Question {
   answer: string;
   difficulty: 'facile' | 'moyen' | 'difficile';
   tags: string[];
+  examQuestionRef?: string;
 }
 
 export interface GlossaryTerm {
@@ -207,7 +208,8 @@ export const questions: Question[] = [
     question: 'Comment fonctionne la méthode du mot probable pour cryptanalyser le chiffrement de Vigenère ?',
     answer: 'La méthode du mot probable consiste à deviner un mot qui apparaît probablement dans le texte clair (comme "le", "de", "que" en français). On fait glisser ce mot le long du texte chiffré et on calcule la clé potentielle. Si la clé obtenue produit des caractères cohérents quand on l\'applique à d\'autres parties du texte, on a probablement trouvé une partie de la clé.',
     difficulty: 'moyen',
-    tags: ['Vigenère', 'cryptanalyse', 'mot probable']
+    tags: ['Vigenère', 'cryptanalyse', 'mot probable'],
+    examQuestionRef: 'Ex.1 Q.1'
   },
   {
     id: 'q2',
@@ -216,7 +218,8 @@ export const questions: Question[] = [
     question: 'Que se passe-t-il si le mot probable a une longueur de k+1, avec k la longueur de la clé ? Quelle est la bonne taille du mot probable ?',
     answer: 'Si le mot probable a une longueur $k+1$ ($k$ = longueur de la clé), on obtient $k+1$ caractères de la clé, mais comme la clé n\'a que $k$ caractères, on obtient un caractère qui "déborde" sur le prochain cycle. Cela peut aider à vérifier la cohérence. La bonne taille est égale à la longueur de la clé $k$, car cela permet d\'obtenir exactement toute la clé.',
     difficulty: 'difficile',
-    tags: ['Vigenère', 'cryptanalyse']
+    tags: ['Vigenère', 'cryptanalyse'],
+    examQuestionRef: 'Ex.1 Q.2'
   },
   {
     id: 'q3',
@@ -225,7 +228,8 @@ export const questions: Question[] = [
     question: 'Comment produit-on la signature S d\'un message M ?',
     answer: 'Pour produire la signature $S$ d\'un message $M$ : 1) On calcule le hash $H(M)$ du message. 2) On chiffre ce hash avec la clé privée de l\'émetteur : $S = E_{priv}(H(M))$. La signature $S$ est envoyée avec le message $M$.',
     difficulty: 'facile',
-    tags: ['signature', 'hachage', 'clé privée']
+    tags: ['signature', 'hachage', 'clé privée'],
+    examQuestionRef: 'Ex.2 Q.1'
   },
   {
     id: 'q4',
@@ -661,7 +665,8 @@ export const questions: Question[] = [
     question: 'Quelle est la différence fondamentale entre les modes ECB et CBC ? Lequel est recommandé ?',
     answer: 'ECB (Electronic Code Book) chiffre chaque bloc indépendamment : $C_i = E_k(P_i)$. Identique blocs clairs $\\rightarrow$ identiques blocs chiffrés (révèle structure). CBC (Cipher Block Chaining) chaîne les blocs : $C_i = E_k(P_i \\oplus C_{i-1})$. CBC est recommandé car il masque les motifs répétitifs grâce au chaînage et à l\'IV.',
     difficulty: 'moyen',
-    tags: ['ECB', 'CBC', 'mode opération']
+    tags: ['ECB', 'CBC', 'mode opération'],
+    examQuestionRef: 'Q.1'
   },
   {
     id: 'q52',
@@ -670,7 +675,8 @@ export const questions: Question[] = [
     question: 'Expliquez l\'avantage du mode CTR (Counter) par rapport à CBC.',
     answer: 'CTR transforme un chiffrement par bloc en chiffrement de flux : $C_i = P_i \\oplus E_k(Nonce || Counter_i)$. Avantages : parallélisable (chiffrement et déchiffrement), accès aléatoire (pas besoin de déchiffrer $C_{i-1}$ pour lire $P_i$), pas de padding nécessaire.',
     difficulty: 'difficile',
-    tags: ['CTR', 'mode opération', 'performance']
+    tags: ['CTR', 'mode opération', 'performance'],
+    examQuestionRef: 'Q.2'
   },
   {
     id: 'q53',
@@ -679,7 +685,8 @@ export const questions: Question[] = [
     question: 'Dans Kerberos, à quoi sert le TGT (Ticket Granting Ticket) ?',
     answer: 'Le TGT est un ticket global délivré par l\'AS (Authentication Server) après authentification initiale. Il prouve l\'identité de l\'utilisateur au TGS (Ticket Granting Server). Cela évite de retaper le mot de passe à chaque fois qu\'on veut accéder à un nouveau service ; on présente juste le TGT pour obtenir un ticket de service.',
     difficulty: 'moyen',
-    tags: ['Kerberos', 'TGT', 'authentification']
+    tags: ['Kerberos', 'TGT', 'authentification'],
+    examQuestionRef: 'Q.3'
   },
   {
     id: 'q54',
@@ -688,7 +695,8 @@ export const questions: Question[] = [
     question: 'Pourquoi WPA2 est-il plus sécurisé que WEP ?',
     answer: 'WEP utilise RC4 avec des clés courtes et IV courts (répétitions), permettant de casser la clé en quelques minutes. WPA2 utilise AES (CCMP) pour le chiffrement fort et gère mieux les clés. Il inclut aussi un mécanisme de rotation de clés et vérifie l\'intégrité des messages (MIC) plus robustement que le CRC32 de WEP.',
     difficulty: 'facile',
-    tags: ['WPA2', 'WEP', 'Wifi']
+    tags: ['WPA2', 'WEP', 'Wifi'],
+    examQuestionRef: 'Q.4'
   },
   {
     id: 'q55',
@@ -715,7 +723,8 @@ export const questions: Question[] = [
     question: 'Quelle est la différence entre un DoS et un DDoS ?',
     answer: 'DoS (Denial of Service) : attaque provenant d\'une source unique visant à rendre un service indisponible (saturation bande passante ou ressources). DDoS (Distributed DoS) : attaque coordonnée provenant de multiples sources (botnet), beaucoup plus difficile à contrer car le trafic malveillant est indistinguable du trafic légitime et vient de partout.',
     difficulty: 'facile',
-    tags: ['DoS', 'DDoS', 'attaque']
+    tags: ['DoS', 'DDoS', 'attaque'],
+    examQuestionRef: 'Q.5'
   }
 ];
 
