@@ -362,7 +362,7 @@ export default function QuestionnairePage() {
           </div>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-2">
+          <div className={`flex flex-wrap gap-2 transition-all duration-300 ${!showAnswer ? "blur-md opacity-50 select-none" : ""}`}>
             {currentQuestion.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="text-xs">
                 {tag}
