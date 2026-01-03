@@ -14,6 +14,7 @@ import {
   ExternalLink,
   Eye,
   EyeOff,
+  FileText,
   Filter,
   RotateCcw,
   Shuffle,
@@ -269,9 +270,38 @@ export default function QuestionnairePage() {
               <Badge variant="outline" className={getDifficultyColor(currentQuestion.difficulty)}>
                 {currentQuestion.difficulty}
               </Badge>
-              <Badge variant="secondary" className="text-xs">
-                Exam {currentQuestion.examYear}
-              </Badge>
+              <div className="flex items-center gap-1">
+                <Badge variant="secondary" className="text-xs">
+                  Exam {currentQuestion.examYear}
+                </Badge>
+                {(() => {
+                  const examPdfs: Record<string, string> = {
+                    "2017-2018": "/resources/ExamsExemples/exam_2017-2018.pdf",
+                    "2018-2019": "/resources/ExamsExemples/exam_2018-2019_v2.pdf",
+                    "2019-2020": "/resources/ExamsExemples/exam_2019-2020.pdf",
+                    "2020-2021": "/resources/ExamsExemples/exam_2020-2021.pdf",
+                  };
+
+                  let pdfUrl: string | null = examPdfs[currentQuestion.examYear] || null;
+
+                  // Gestion spéciale pour les annexes
+                  if (currentQuestion.examYear === "Annexes") {
+                     if (currentQuestion.tags.includes("ECC")) pdfUrl = "/resources/Annexes/annexe-courbes-elliptiques-v2.pdf";
+                     else if (currentQuestion.tags.includes("RSA") || currentQuestion.tags.includes("mathématiques")) pdfUrl = "/resources/Annexes/annexe-proof-rsa.pdf";
+                  }
+
+                  if (pdfUrl) {
+                    return (
+                      <Link href={pdfUrl} target="_blank" rel="noopener noreferrer">
+                        <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full" title="Voir l'examen PDF">
+                          <FileText className="h-3 w-3" />
+                        </Button>
+                      </Link>
+                    );
+                  }
+                  return null;
+                })()}
+              </div>
             </div>
           </div>
         </CardHeader>
